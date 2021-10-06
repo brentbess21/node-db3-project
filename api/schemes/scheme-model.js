@@ -17,12 +17,13 @@ function find() { // EXERCISE A
     2A- When you have a grasp on the query go ahead and build it in Knex.
     Return from this function the resulting dataset.
   */
- return db('schemes')
-        .select('*').from('schemes')
-        .leftJoin('steps','schemes.scheme_id', 'steps.scheme_id')
-        .count('steps.step_id as number_of_steps')
-        .groupBy('schemes.scheme_id')   
-        .orderBy('schemes.scheme_id')
+
+    return db('schemes as sc')
+            .leftJoin('steps as st', 'sc.scheme_id', 'st.scheme_id')
+            .select('sc.*')
+            .count('st.step_id as number_of_steps')
+            .groupBy('sc.scheme_id')
+            .orderBy('sc.scheme_id', 'asc')
 }
 
 function findById(scheme_id) { // EXERCISE B
