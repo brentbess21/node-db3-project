@@ -99,22 +99,21 @@ async function findById(scheme_id) { // EXERCISE B
         .where('sc.scheme_id', scheme_id)
         .orderBy('st.step_number')
 
-  const stepInfo = schemeInfo.map(scheme=> {
-    if(scheme.step_id !== null ) {
-    return {
-        step_id: scheme.step_id,
-        step_number: scheme.step_number,
-        instructions: scheme.instructions
-      }
-    } 
-    
-  })
-
   const result = {
     scheme_id: schemeInfo[0].scheme_id,
     scheme_name: schemeInfo[0].scheme_name,
-    steps: stepInfo
+    steps: []
   }
+
+  schemeInfo.forEach(scheme => {
+    if(scheme.step_id) {
+      result.steps.push({
+        step_id: scheme.step_id,
+        step_number: scheme.step_number,
+        instructions: scheme.instructions
+      })
+    }
+  })
 
   return(result)
 }
